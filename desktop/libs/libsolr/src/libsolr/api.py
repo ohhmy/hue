@@ -230,6 +230,13 @@ class SolrApi(object):
     if nested_fields:
       fl += urllib.unquote(utf_quoter(',[child parentFilter="%s"]' % ' OR '.join(nested_fields)))
 
+    params += (
+      ('mlt', 'true'),
+      ('mlt.fl', 'app'),
+      ('mlt.mindf', 1),
+      ('mlt.mintf', 1),
+    )
+
     params += (('fl', fl),)
 
     params += (

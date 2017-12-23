@@ -687,6 +687,11 @@ def augment_response(collection, query, response):
       doc['externalLink'] = link
       doc['details'] = []
       doc['hueId'] = smart_unicode(doc.get(id_field, ''))
+      if 'moreLikeThis' in response and response['moreLikeThis'][doc['hueId']].get('numFound'):
+        _doc = response['moreLikeThis'][doc['hueId']]
+        doc['_childDocuments_'] = _doc['docs']
+        del response['moreLikeThis'][doc['hueId']]
+# text: doc.childDocuments().length or numFound
 
   highlighted_fields = response.get('highlighting', {}).keys()
   if highlighted_fields and not query.get('download'):
